@@ -271,6 +271,7 @@ public class Level implements Screen {
             camera.position.set(player.getCenter().x, player.getCenter().y, 0);
             camera.update();
             
+            // Added to prevent the game from crashing, Stops the renderer from being used after it is disposed 
             if (renderer != null) {
             	renderer.setView(camera);
             	renderer.render();
@@ -318,6 +319,7 @@ public class Level implements Screen {
                 currentPowerUp.update(delta);
             }
             
+            // Added to prevent the game from crashing, Stops the renderer from being used after it is disposed
             if (renderer != null) {
             	renderer.getBatch().end();
             }
@@ -335,6 +337,7 @@ public class Level implements Screen {
             table.add(healthLabel).pad(10).left();
             table.row();
             table.add(powerupLabel);
+            // Added to prevent the game from crashing, Stops the stage from being used after it is disposed
             if (stage != null) {
             	stage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 30f));
             	stage.draw();
@@ -387,6 +390,7 @@ public class Level implements Screen {
     @Override
     public void dispose() {
         skin.dispose();
+        // Added to prevent the game from crashing, Stops the stage from being used after it is disposed
         if (stage != null) {
             stage.dispose();
             stage = null;
@@ -399,6 +403,7 @@ public class Level implements Screen {
         for (Zombie zombie : aliveZombies) {
             zombie.getTexture().dispose();
         }
+        // Added to prevent the game from crashing, Stops the renderer from being used after it is disposed
         if (renderer != null) {
             renderer.dispose();
         	renderer = null;
