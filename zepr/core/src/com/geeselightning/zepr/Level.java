@@ -267,61 +267,45 @@ public class Level implements Screen {
                 }
             }
 
-            if (zombiesRemaining == 0) {
-                // Wave complete, increment wave number
-                currentWave++;
-                if (currentWave > waves.length) {
-                    // Level completed, back to select screen and complete stage.
-                    // If stage is being replayed complete() will stop progress being incremented.
-                    isPaused = true;
-                    complete();
-                    if (parent.progress == parent.COMPLETE) {
-                        parent.setScreen(new TextScreen(parent, "Game completed."));
-                    } else {
-                        parent.setScreen(new TextScreen(parent, "Level completed."));
-                    }
-                } else {
-                    // Update zombiesRemaining with the number of zombies of the new wave
-                    zombiesRemaining = waves[currentWave - 1];
-                    zombiesToSpawn = zombiesRemaining;
-                }
-            }
-
             // Keep the player central in the screen.
             camera.position.set(player.getCenter().x, player.getCenter().y, 0);
             camera.update();
+            
+            if (renderer != null) {
+            	renderer.setView(camera);
+            	renderer.render();
 
-            renderer.setView(camera);
-            renderer.render();
-
-            renderer.getBatch().begin();
+            	renderer.getBatch().begin();
+            }
 
             player.draw(renderer.getBatch());
 
             // Resolve all possible attacks
-            for (int i = 0; i < aliveZombies.size(); i++) {
-                Zombie zombie = aliveZombies.get(i);
-                // Zombies will only attack if they are in range, the attack has cooled down, and they are
-                // facing a player.
-                // Player will only attack in the reverse situation but player.attack must also be true. This is
-                //controlled by the ZeprInputProcessor. So the player will only attack when the user clicks.
-                if (player.attack) {
-                    player.attack(zombie, delta);
-                }
-                zombie.attack(player, delta);
+            if (renderer != null) {
+            	for (int i = 0; i < aliveZombies.size(); i++) {
+            		Zombie zombie = aliveZombies.get(i);
+            		// Zombies will only attack if they are in range, the attack has cooled down, and they are
+            		// facing a player.
+            		// Player will only attack in the reverse situation but player.attack must also be true. This is
+            		// controlled by the ZeprInputProcessor. So the player will only attack when the user clicks.
+            		if (player.attack) {
+            			player.attack(zombie, delta);
+            		}
+            		zombie.attack(player, delta);
 
-                // Draw zombies
-                zombie.draw(renderer.getBatch());
+            		// Draw zombies
+            		zombie.draw(renderer.getBatch());
 
-                // Draw zombie health bars
-                int fillAmount = (int) (zombie.getHealth() / 100) * 30;
-                renderer.getBatch().setColor(Color.BLACK);
-                renderer.getBatch().draw(blank, zombie.getX(), zombie.getY()+32, 32, 3);
-                renderer.getBatch().setColor(Color.RED);
-                renderer.getBatch().draw(blank, zombie.getX()+1, zombie.getY()+33, fillAmount, 1);
-                renderer.getBatch().setColor(Color.WHITE);
+            		// Draw zombie health bars
+            		int fillAmount = (int) (zombie.getHealth() / 100) * 30;
+            		renderer.getBatch().setColor(Color.BLACK);
+            		renderer.getBatch().draw(blank, zombie.getX(), zombie.getY()+32, 32, 3);
+            		renderer.getBatch().setColor(Color.RED);
+            		renderer.getBatch().draw(blank, zombie.getX()+1, zombie.getY()+33, fillAmount, 1);
+            		renderer.getBatch().setColor(Color.WHITE);
+            	}
             }
-
+            	
             if (currentPowerUp != null) {
                 // Activate the powerup up if the player moves over it and it's not already active
                 if (currentPowerUp.overlapsPlayer() && !currentPowerUp.active) {
@@ -333,8 +317,10 @@ public class Level implements Screen {
                 }
                 currentPowerUp.update(delta);
             }
-
-            renderer.getBatch().end();
+            
+            if (renderer != null) {
+            	renderer.getBatch().end();
+            }
 
 
             String progressString = ("Wave " + Integer.toString(currentWave) + ", " + Integer.toString(zombiesRemaining) + " zombies remaining.");
@@ -349,8 +335,32 @@ public class Level implements Screen {
             table.add(healthLabel).pad(10).left();
             table.row();
             table.add(powerupLabel);
-            stage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 30f));
-            stage.draw();
+            if (stage != null) {
+            	stage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 30f));
+            	stage.draw();
+            }
+            
+            if (zombiesRemaining == 0) {
+                // Wave complete, increment wave number
+                currentWave++;
+                if (currentWave > waves.length) {
+                    // Level completed, back to select screen and complete stage.
+                    // If stage is being replayed complete() will stop progress being incremented.
+                    isPaused = true;
+                    complete();
+                    if (parent.progress == parent.COMPLETE) {
+                        parent.setScreen(new TextScreen(parent, "Game completed."));
+                        dispose();
+                    } else {
+                        parent.setScreen(new TextScreen(parent, "Level completed."));
+                        dispose();
+                    }
+                } else {
+                    // Update zombiesRemaining with the number of zombies of the new wave
+                    zombiesRemaining = waves[currentWave - 1];
+                    zombiesToSpawn = zombiesRemaining;
+                }
+            }
         }
     }
 
@@ -377,15 +387,21 @@ public class Level implements Screen {
     @Override
     public void dispose() {
         skin.dispose();
-        stage.dispose();
+        if (stage != null) {
+            stage.dispose();
+            stage = null;
+        }
         map.dispose();
-        renderer.dispose();
         if (currentPowerUp != null) {
             currentPowerUp.getTexture().dispose();
         }
         player.getTexture().dispose();
         for (Zombie zombie : aliveZombies) {
             zombie.getTexture().dispose();
+        }
+        if (renderer != null) {
+            renderer.dispose();
+        	renderer = null;
         }
     }
 }
