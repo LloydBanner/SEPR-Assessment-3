@@ -56,7 +56,8 @@ public class Player extends Character {
     		abilityDuration = Constant.NERDYABILITYDURATION;
             dmgMult = Constant.NERDYABILITYDMGMULT;
     		this.attackDamage = (int)(Constant.PLAYERDMG * dmgMult);
-            attackTexture = new Texture("player02_attack.png");
+            mainTexture = new Texture("player01_power.png");
+            attackTexture = new Texture("player01_attack_power.png");
     	}
     	if (playertype == "sporty") {
     		abilityCooldown = Constant.SPORTYABILITYCOOLDOWN;
@@ -78,6 +79,7 @@ public class Player extends Character {
     	if (playertype == "nerdy") {
             dmgMult = Constant.NERDYDMGMULT;
             this.attackDamage = (int)(Constant.PLAYERDMG * dmgMult);
+            mainTexture = new Texture("player01.png");
             attackTexture = new Texture("player01_attack.png");
     	}
     	if (playertype == "sporty") {
