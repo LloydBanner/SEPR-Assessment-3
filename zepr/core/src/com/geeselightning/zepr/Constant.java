@@ -17,13 +17,24 @@ public final class Constant {
     public static final float NERDYHPMULT = 1.5f;
     public static final float NERDYDMGMULT = 1;
     public static final float NERDYSPEEDMULT = 1;
+    // Added to work with player abilities
+    public static final float NERDYABILITYDMGMULT = 20;
+    public static final float NERDYABILITYDURATION = 5;
+    public static final float NERDYABILITYCOOLDOWN = 30;
     public static final float SPORTYHPMULT = 1;
     public static final float SPORTYDMGMULT = 1;
     public static final float SPORTYSPEEDMULT = 1.5f;
+    // Added to work with player abilities
+    public static final float SPORTYABILITYSPEEDMULT = 3;
+    public static final float SPORTYABILITYDURATION = 10;
+    public static final float SPORTYABILITYCOOLDOWN = 60;
     // Added to be used for third player type
     public static final float DRAMAHPMULT = 1;
     public static final float DRAMADMGMULT = 5;
     public static final float DRAMASPEEDMULT = 1;
+    // Added to work with player abilities
+    public static final float DRAMAABILITYDURATION = 1;
+    public static final float DRAMAABILITYCOOLDOWN = 40;
     public static final int HEALUP = 30;
     public static final int SPEEDUP = 50;
     public static final float SPEEDUPTIME = 10;

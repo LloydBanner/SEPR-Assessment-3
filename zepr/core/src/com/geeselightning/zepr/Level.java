@@ -47,6 +47,9 @@ public class Level implements Screen {
 
     Label progressLabel = new Label("", skin);
     Label healthLabel = new Label("", skin);
+    // Added for player Abilities
+    Label AbilityCooldownLabel = new Label("", skin);
+    Label AbilityDurationLabel = new Label("", skin);
     Label powerupLabel = new Label("", skin);
 
     public Level(Zepr zepr, String mapLocation, Vector2 playerSpawn, ArrayList<Vector2> zombieSpawnPoints, int[] waves, Vector2 powerSpawn) {
@@ -327,14 +330,25 @@ public class Level implements Screen {
 
             String progressString = ("Wave " + Integer.toString(currentWave) + ", " + Integer.toString(zombiesRemaining) + " zombies remaining.");
             String healthString = ("Health: " + Integer.toString(player.health) + "HP");
+            // Added for player abilities
+            String abilityCooldownString = ("Ability Cooldown: " + Integer.toString((int) player.abilityCooldown) + "s");
+            String abilityDurationString = ("Ability Duration: " + Integer.toString((int) player.abilityDuration) + "s (Press E to use)");
 
             progressLabel.setText(progressString);
             healthLabel.setText(healthString);
+            // Added for player abilities
+            AbilityCooldownLabel.setText(abilityCooldownString);
+            AbilityDurationLabel.setText(abilityDurationString);
 
             table.top().left();
             table.add(progressLabel).pad(10);
             table.row().pad(10);
             table.add(healthLabel).pad(10).left();
+            table.row();
+            // Added for player abilities
+            table.add(AbilityCooldownLabel).pad(10).left();;
+            table.row();
+            table.add(AbilityDurationLabel).pad(10).left();
             table.row();
             table.add(powerupLabel);
             // Added to prevent the game from crashing, Stops the stage from being used after it is disposed

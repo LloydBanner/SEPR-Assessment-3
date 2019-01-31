@@ -25,6 +25,9 @@ public class ZeprInputProcessor implements InputProcessor {
         if (keycode == Input.Keys.A) {
             player.velocity.x = - player.speed;
         }
+        if (keycode == Input.Keys.E) {
+            player.abilityActivated = true;
+        }
         if (keycode == Input.Keys.ESCAPE) {
             player.currentLevel.isPaused = !(player.currentLevel.isPaused);
         }
@@ -34,6 +37,7 @@ public class ZeprInputProcessor implements InputProcessor {
     @Override
     public boolean keyUp(int keycode) {
         // This causes the player to stop moving in a certain direction when the corresponding key is released.
+    	// Changed to make player movement more smooth
         if (keycode == Input.Keys.W) {
         	if (player.velocity.y == player.speed) {
                 player.velocity.y = 0;

@@ -13,6 +13,9 @@ public class Player extends Character {
     Texture mainTexture;
     Texture attackTexture;
     boolean attack = false;
+    boolean abilityActivated = false;
+    float abilityCooldown = 0;
+    float abilityDuration = 0;
     float HPMult;
     float dmgMult;
     float speedMult;
@@ -44,6 +47,49 @@ public class Player extends Character {
         } else {
             hitRefresh += delta;
         }
+    }
+    
+    // Added to implement player abilities
+    public void activateAbility() {
+    	if (playertype == "nerdy") {
+    		abilityCooldown = Constant.NERDYABILITYCOOLDOWN;
+    		abilityDuration = Constant.NERDYABILITYDURATION;
+            dmgMult = Constant.NERDYABILITYDMGMULT;
+    		this.attackDamage = (int)(Constant.PLAYERDMG * dmgMult);
+            attackTexture = new Texture("player02_attack.png");
+    	}
+    	if (playertype == "sporty") {
+    		abilityCooldown = Constant.SPORTYABILITYCOOLDOWN;
+    		abilityDuration = Constant.SPORTYABILITYDURATION;
+            speedMult = Constant.SPORTYABILITYSPEEDMULT;
+    		this.speed = (int)(Constant.PLAYERSPEED * speedMult);
+    	}
+    	if (playertype == "drama") {
+    		abilityCooldown = Constant.DRAMAABILITYCOOLDOWN;
+    		abilityDuration = Constant.DRAMAABILITYDURATION;
+    		this.health += 10;
+            mainTexture = new Texture("player03_heal.png");
+            attackTexture = new Texture("player03_attack_heal.png");
+    	}
+    }
+    
+    // Added to implement player abilities
+    public void deactivateAbility() {
+    	if (playertype == "nerdy") {
+            dmgMult = Constant.NERDYDMGMULT;
+            this.attackDamage = (int)(Constant.PLAYERDMG * dmgMult);
+            attackTexture = new Texture("player01_attack.png");
+    	}
+    	if (playertype == "sporty") {
+            speedMult = Constant.SPORTYSPEEDMULT;
+            speedMult = Constant.SPORTYSPEEDMULT;
+    		this.speed = (int)(Constant.PLAYERSPEED * speedMult);
+    	}
+    	if (playertype == "drama") {
+            mainTexture = new Texture("player03.png");
+            attackTexture = new Texture("player03_attack.png");
+    	}
+    	
     }
 
     public void respawn(Vector2 playerSpawn, Level level){
@@ -112,6 +158,23 @@ public class Player extends Character {
         // Changes the texture back to the main one after 0.1s.
         //if (hitRefresh > 0.1 && getTexture() == attackTexture) {
             this.setTexture(mainTexture);
+        }
+        
+        // Added to implement player abilities
+        if (abilityCooldown <= 0) {
+        	if (abilityActivated) {
+            	this.activateAbility();
+            }
+        } else {
+        	abilityCooldown -= delta;
+        }
+        
+        // Added to implement player abilities
+        if (abilityDuration <= 0 && abilityActivated) {
+        	this.deactivateAbility();
+        	abilityActivated = false;
+        } else if (abilityDuration > 0) {
+        	abilityDuration -= delta;
         }
     }
 
