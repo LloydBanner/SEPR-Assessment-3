@@ -48,6 +48,8 @@ public class SelectLevelScreen implements Screen {
         // Creating character buttons.
         TextButton nerdy = new TextButton("Nerdy",skin);
         TextButton sporty = new TextButton("Sporty",skin);
+        // Added for third player type
+        TextButton drama = new TextButton("Drama",skin);
 
         // Creating other buttons.
         TextButton play = new TextButton("Play", skin);
@@ -70,6 +72,8 @@ public class SelectLevelScreen implements Screen {
         // Creating character descriptions.
         final String nerdyDescription = "Construct a mech suit for yourself so you can take more hits.";
         final String sportyDescripton = "Work out so you run faster.";
+        // Added for third player type
+        final String dramaDescripton = "Borrow a sword prop from the drama department.";
         final String defaultCharacterDescription = "Select a type of student from the buttons above.";
         characterDescription = new Label(defaultCharacterDescription,skin);
         characterDescription.setWrap(true);
@@ -111,6 +115,8 @@ public class SelectLevelScreen implements Screen {
         stageSelect.row().center();
         stageSelect.add(nerdy).pad(10);
         stageSelect.add(sporty).pad(10);
+        // Added to support Third Player type
+        stageSelect.add(drama).pad(10);
 
         stageSelect.row().center();
         stageSelect.add(characterDescription).width(1000f).colspan(3);
@@ -186,6 +192,15 @@ public class SelectLevelScreen implements Screen {
             public void changed(ChangeEvent event, Actor actor) {
                 characterDescription.setText(sportyDescripton);
                 player.setType("sporty");
+                playerSet = true;
+            }
+        });
+        // Added to support third player type
+        drama.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                characterDescription.setText(dramaDescripton);
+                player.setType("drama");
                 playerSet = true;
             }
         });

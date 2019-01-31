@@ -20,6 +20,10 @@ public final class Constant {
     public static final float SPORTYHPMULT = 1;
     public static final float SPORTYDMGMULT = 1;
     public static final float SPORTYSPEEDMULT = 1.5f;
+    // Added to be used for third player type
+    public static final float DRAMAHPMULT = 1;
+    public static final float DRAMADMGMULT = 5;
+    public static final float DRAMASPEEDMULT = 1;
     public static final int HEALUP = 30;
     public static final int SPEEDUP = 50;
     public static final float SPEEDUPTIME = 10;
