@@ -70,10 +70,11 @@ public class SelectLevelScreen implements Screen {
         stageDescription.setAlignment(Align.center);
 
         // Creating character descriptions.
-        final String nerdyDescription = "Construct a mech suit for yourself so you can take more hits.";
-        final String sportyDescripton = "Work out so you run faster.";
+        // Changed descriptions to incorporate player abilities
+        final String nerdyDescription = "Construct a mech suit for yourself so you can take more hits. Ability: Power Punch (increases attack briefly)";
+        final String sportyDescripton = "Work out so you run faster. Ability: Sprint (run quickly for a short time)";
         // Added for third player type
-        final String dramaDescripton = "Borrow a sword prop from the drama department.";
+        final String dramaDescripton = "Borrow a sword prop from the drama department. Ability: Fake Damage (restores 10HP)";
         final String defaultCharacterDescription = "Select a type of student from the buttons above.";
         characterDescription = new Label(defaultCharacterDescription,skin);
         characterDescription.setWrap(true);
