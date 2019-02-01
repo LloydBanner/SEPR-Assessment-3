@@ -69,7 +69,11 @@ public class Player extends Character {
     	if (playertype == "drama") {
     		abilityCooldown = Constant.DRAMAABILITYCOOLDOWN;
     		abilityDuration = Constant.DRAMAABILITYDURATION;
-    		this.health += 10;
+    		if ((this.health + 10) > (int)(this.HPMult * Constant.PLAYERMAXHP)) {
+    			this.health = (int)(this.HPMult * Constant.PLAYERMAXHP);
+    		} else {
+        		this.health += 10;
+    		}
             mainTexture = new Texture("player03_heal.png");
             attackTexture = new Texture("player03_attack_heal.png");
     	}
