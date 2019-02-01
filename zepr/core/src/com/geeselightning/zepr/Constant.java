@@ -33,7 +33,7 @@ public final class Constant {
     public static final float DRAMADMGMULT = 5;
     public static final float DRAMASPEEDMULT = 1;
     // Added to work with player abilities
-    public static final float DRAMAABILITYDURATION = 1;
+    public static final float DRAMAABILITYDURATION = 0.5f;
     public static final float DRAMAABILITYCOOLDOWN = 40;
     public static final int HEALUP = 30;
     public static final int SPEEDUP = 50;

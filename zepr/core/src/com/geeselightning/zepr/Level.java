@@ -297,7 +297,7 @@ public class Level implements Screen {
             	}
             }
             	
-            if (currentPowerUp != null) {
+            if ((currentPowerUp != null) && (renderer != null)) {
                 // Activate the powerup up if the player moves over it and it's not already active
             	String powerupString;
                 if (currentPowerUp.overlapsPlayer() && !currentPowerUp.active) {

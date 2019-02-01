@@ -40,7 +40,7 @@ public class Zombie extends Character {
         if (health <= 0) {
             currentLevel.zombiesRemaining--;
             currentLevel.aliveZombies.remove(this);
-            this.getTexture().dispose();
+            // Removed disposal of texture to prevent texture glitch
         }
     }
 }

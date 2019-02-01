@@ -9,7 +9,7 @@ public class Player extends Character {
     private static final Player instance = new Player(new Sprite(new Texture("player01.png")), new Vector2(0, 0));
     int attackDamage = Constant.PLAYERDMG;
     int hitRange = Constant.PLAYERRANGE;
-    final float hitCooldown =  Constant.PLAYERHITCOOLDOWN;
+    final float hitCooldown = Constant.PLAYERHITCOOLDOWN;
     Texture mainTexture;
     Texture attackTexture;
     boolean attack = false;
@@ -97,6 +97,12 @@ public class Player extends Character {
     public void respawn(Vector2 playerSpawn, Level level){
         setX(playerSpawn.x);
         setY(playerSpawn.y);
+        // Added rest information below so player doesn't move and attack when they spawn
+        abilityDuration = 0;
+        this.deactivateAbility();
+        abilityCooldown = 0;
+        attack = false;
+        this.velocity = new Vector2(0, 0);
         if (playertype == "nerdy"){
             dmgMult = Constant.NERDYDMGMULT;
             HPMult = Constant.NERDYHPMULT;
@@ -164,7 +170,7 @@ public class Player extends Character {
         
         // Added to implement player abilities
         if (abilityCooldown <= 0) {
-        	if (abilityActivated) {
+        	if (abilityActivated && abilityDuration <= 0) {
             	this.activateAbility();
             }
         } else {

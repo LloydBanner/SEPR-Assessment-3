@@ -174,6 +174,7 @@ public class SelectLevelScreen implements Screen {
             		int progress = scanner.nextInt();
             		scanner.close();
             		parent.progress = progress;
+            		// Reloads page to update buttons
                     parent.changeScreen(Zepr.SELECT);
             	} catch (FileNotFoundException e) {
 					e.printStackTrace();
