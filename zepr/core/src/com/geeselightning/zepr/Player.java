@@ -10,6 +10,7 @@ public class Player extends Character {
     int attackDamage = Constant.PLAYERDMG;
     int hitRange = Constant.PLAYERRANGE;
     final float hitCooldown = Constant.PLAYERHITCOOLDOWN;
+    float hitDuration = 0;
     Texture mainTexture;
     Texture attackTexture;
     boolean attack = false;
@@ -39,13 +40,13 @@ public class Player extends Character {
         return playertype;
     }
 
-
+    // Changed to stop player from constantly attacking
     public void attack(Zombie zombie, float delta) {
-        if (canHitGlobal(zombie, hitRange) && hitRefresh > hitCooldown) {
+        if (canHitGlobal(zombie, hitRange) && hitRefresh > hitCooldown && hitDuration >= 0) {
             zombie.takeDamage(attackDamage);
             hitRefresh = 0;
         } else {
-            hitRefresh += delta;
+        	hitRefresh += delta;
         }
     }
     
@@ -158,14 +159,18 @@ public class Player extends Character {
             currentLevel.gameOver();
         }
 
-        // Gives the player the attack texture for 0.1s after an attack.
-        //if (hitRefresh <= 0.1 && getTexture() != attackTexture) {
-        if (attack) {
+        // Changed to stop player from constantly attacking
+        // When hitDuration == 0 player can attack
+        if (attack && hitDuration == 0) {
+        	hitDuration = 0.2f;
+        }
+        if (hitDuration > 0) {
             this.setTexture(attackTexture);
+        	hitDuration -= delta;
         } else {
-        // Changes the texture back to the main one after 0.1s.
-        //if (hitRefresh > 0.1 && getTexture() == attackTexture) {
-            this.setTexture(mainTexture);
+        	this.setTexture(mainTexture);
+        	attack = false;
+        	hitDuration = 0;
         }
         
         // Added to implement player abilities
