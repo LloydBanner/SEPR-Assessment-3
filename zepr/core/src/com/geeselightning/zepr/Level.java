@@ -257,19 +257,6 @@ public class Level implements Screen {
             // Try to spawn all zombie in the stage and update zombiesToSpawn with the amount that failed to spawn
             zombiesToSpawn = spawnZombies(zombiesToSpawn, zombieSpawnPoints);
 
-            // Spawn a power up and the end of a wave, if there isn't already a powerUp on the level
-            if (zombiesRemaining == 0 && currentPowerUp == null) {
-                int random = (int )(Math.random() * 3 + 1);
-                if (random == 1) {
-                    currentPowerUp = new PowerUpHeal(this);
-                } else if (random == 2){
-                    // random == 2
-                    currentPowerUp = new PowerUpSpeed(this);
-                } else {
-                    currentPowerUp = new PowerUpImmunity(this);
-                }
-            }
-
             // Keep the player central in the screen.
             camera.position.set(player.getCenter().x, player.getCenter().y, 0);
             camera.update();
@@ -358,6 +345,25 @@ public class Level implements Screen {
             }
             
             if (zombiesRemaining == 0) {
+            	// Spawn a power up and the end of a wave, if there isn't already a powerUp on the level
+            	// Moved power up logic so a power up always spawns at the end of the wave
+                if (currentPowerUp == null) {
+                    int random = (int )(Math.random() * 5 + 1);
+                    if (random == 1) {
+                        currentPowerUp = new PowerUpHeal(this);
+                    } else if (random == 2){
+                        currentPowerUp = new PowerUpSpeed(this);
+                    } else if (random == 3){
+                        currentPowerUp = new PowerUpImmunity(this);
+                    } else if (random == 4){
+                    	// added for extra power ups
+                        currentPowerUp = new PowerUpInstaKill(this);
+                    } else {
+                    	// added for extra power ups
+                        currentPowerUp = new PowerUpNoCooldowns(this);
+                    }
+                }
+
                 // Wave complete, increment wave number
                 currentWave++;
                 if (currentWave > waves.length) {

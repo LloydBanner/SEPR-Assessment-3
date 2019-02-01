@@ -37,6 +37,11 @@ public final class Constant {
     public static final float DRAMAABILITYCOOLDOWN = 40;
     public static final int HEALUP = 30;
     public static final int SPEEDUP = 50;
+    // Added for extra power ups
+    public static final int INSTAKILL = 100;
     public static final float SPEEDUPTIME = 10;
     public static final float IMMUNITYTIME = 5;
+    // Added for extra power ups
+    public static final float INSTAKILLTIME = 10;
+    public static final float NOCOOLDOWNSTIME = 10;
 }
