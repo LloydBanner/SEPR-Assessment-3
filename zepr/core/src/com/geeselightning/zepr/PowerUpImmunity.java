@@ -8,6 +8,9 @@ public class PowerUpImmunity extends PowerUp {
 
     public PowerUpImmunity(Level currentLevel) {
         super(3, new Texture("immunity.png"), currentLevel);
+        // added to display power up on screen
+        timeRemaining = Constant.IMMUNITYTIME;
+        this.name = "Immunity";
     }
 
     @Override

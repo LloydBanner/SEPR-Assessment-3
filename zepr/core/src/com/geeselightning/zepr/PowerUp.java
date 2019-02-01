@@ -11,6 +11,9 @@ public class PowerUp extends Sprite {
     public int type;
     Level currentLevel;
     public boolean active;
+    // added to display power up on screen
+    public String name;
+    public float timeRemaining;
 
     public PowerUp(int type, Texture texture, Level currentLevel) {
         super(new Sprite(texture));

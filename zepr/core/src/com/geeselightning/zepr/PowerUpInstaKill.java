@@ -7,10 +7,11 @@ import com.badlogic.gdx.graphics.Texture;
 
 public class PowerUpInstaKill extends PowerUp {
 
-    public float timeRemaining = Constant.INSTAKILLTIME;
-
     public PowerUpInstaKill(Level currentLevel) {
         super(3, new Texture("instakill.png"), currentLevel);
+        // added to display power up on screen
+        timeRemaining = Constant.INSTAKILLTIME;
+        this.name = "INSTA KILL";
     }
     
     @Override

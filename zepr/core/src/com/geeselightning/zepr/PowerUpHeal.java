@@ -6,6 +6,8 @@ public class PowerUpHeal extends PowerUp {
 
     public PowerUpHeal(Level currentLevel) {
         super(1, new Texture("heal.png"), currentLevel);
+        // added to display power up on screen
+        this.name = "Health";
     }
 
     @Override

@@ -11,6 +11,9 @@ public class PowerUpNoCooldowns extends PowerUp {
 
     public PowerUpNoCooldowns(Level currentLevel) {
         super(3, new Texture("nocooldowns.png"), currentLevel);
+        // added to display power up on screen
+        timeRemaining = Constant.NOCOOLDOWNSTIME;
+        this.name = "No Ability Cooldown";
     }
     
     @Override

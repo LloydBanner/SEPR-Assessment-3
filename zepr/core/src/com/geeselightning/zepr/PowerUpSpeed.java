@@ -8,6 +8,9 @@ public class PowerUpSpeed extends PowerUp {
 
     public PowerUpSpeed(Level currentLevel) {
         super(2, new Texture("speed.png"), currentLevel);
+        // added to display power up on screen
+        timeRemaining = Constant.SPEEDUPTIME;
+        this.name = "Speed";
     }
 
     @Override

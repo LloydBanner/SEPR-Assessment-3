@@ -299,14 +299,21 @@ public class Level implements Screen {
             	
             if (currentPowerUp != null) {
                 // Activate the powerup up if the player moves over it and it's not already active
+            	String powerupString;
                 if (currentPowerUp.overlapsPlayer() && !currentPowerUp.active) {
                     currentPowerUp.activate();
                 }
                 // Only render the powerup if it is not active, otherwise it disappears
                 if (!currentPowerUp.active) {
                     currentPowerUp.draw(renderer.getBatch());
+                    powerupString = (currentPowerUp.name + ": Available");
+                } else {
+                	powerupString = (currentPowerUp.name + ": " + ((int) currentPowerUp.timeRemaining) + "s");
                 }
                 currentPowerUp.update(delta);
+                powerupLabel.setText(powerupString);
+            } else {
+                powerupLabel.setText("");
             }
             
             // Added to prevent the game from crashing, Stops the renderer from being used after it is disposed
@@ -337,7 +344,7 @@ public class Level implements Screen {
             table.row();
             table.add(AbilityDurationLabel).pad(10).left();
             table.row();
-            table.add(powerupLabel);
+            table.add(powerupLabel).pad(10).left();
             // Added to prevent the game from crashing, Stops the stage from being used after it is disposed
             if (stage != null) {
             	stage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 30f));
