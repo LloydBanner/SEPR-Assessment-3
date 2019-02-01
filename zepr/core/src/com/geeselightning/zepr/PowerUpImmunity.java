@@ -4,8 +4,6 @@ import com.badlogic.gdx.graphics.Texture;
 
 public class PowerUpImmunity extends PowerUp {
 
-    public float timeRemaining = Constant.IMMUNITYTIME;
-
     public PowerUpImmunity(Level currentLevel) {
         super(3, new Texture("immunity.png"), currentLevel);
         // added to display power up on screen

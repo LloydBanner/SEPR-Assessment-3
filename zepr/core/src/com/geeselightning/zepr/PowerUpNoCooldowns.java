@@ -7,8 +7,6 @@ import com.badlogic.gdx.graphics.Texture;
 
 public class PowerUpNoCooldowns extends PowerUp {
 
-    public float timeRemaining = Constant.NOCOOLDOWNSTIME;
-
     public PowerUpNoCooldowns(Level currentLevel) {
         super(3, new Texture("nocooldowns.png"), currentLevel);
         // added to display power up on screen

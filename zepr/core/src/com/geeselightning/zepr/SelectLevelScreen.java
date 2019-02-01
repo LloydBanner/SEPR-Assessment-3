@@ -1,5 +1,14 @@
 package com.geeselightning.zepr;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.Reader;
+import java.io.Writer;
+import java.util.Scanner;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
@@ -138,6 +147,37 @@ public class SelectLevelScreen implements Screen {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 parent.changeScreen(Zepr.MENU);
+            }
+        });
+        
+        // Added to implement saving requirement
+        save.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+            	try {
+            		Writer writer = new FileWriter("save.txt", false);
+            		writer.write(Integer.toString(parent.progress));
+            		writer.close();
+            	} catch (IOException e) {
+					e.printStackTrace();
+            	}
+            }
+        });
+
+        // Added to implement saving requirement
+        load.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+            	try {
+                	File file = new File("save.txt");
+                	Scanner scanner = new Scanner(file);
+            		int progress = scanner.nextInt();
+            		scanner.close();
+            		parent.progress = progress;
+                    parent.changeScreen(Zepr.SELECT);
+            	} catch (FileNotFoundException e) {
+					e.printStackTrace();
+				} 
             }
         });
 
