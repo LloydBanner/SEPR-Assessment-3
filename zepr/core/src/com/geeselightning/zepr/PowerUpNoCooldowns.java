@@ -28,7 +28,7 @@ public class PowerUpNoCooldowns extends PowerUp {
     @Override
     public void update(float delta) {
         if (active) {
-        	player.abilityCooldown = 0;
+        	player.abilityCooldown = player.abilityDuration;
             timeRemaining -= delta;
         }
         if (timeRemaining < 0) {

@@ -9,7 +9,6 @@ public class ZeprInputProcessor implements InputProcessor {
 
     protected Vector2 mousePosition = new Vector2(0, 0);
     private Player player = Player.getInstance();
-    private boolean ePressed = false;
 
     @Override
     public boolean keyDown(int keycode) {
@@ -26,11 +25,10 @@ public class ZeprInputProcessor implements InputProcessor {
         if (keycode == Input.Keys.A) {
             player.velocity.x = - player.speed;
         }
+        // Added to activate player ability
         if (keycode == Input.Keys.E) {
-        	ePressed = true;
-        	if (ePressed) {
-             player.abilityActivated = true;
-        	}
+            player.abilityActivated = true;
+            player.abilityDuration = 1;
         }
         if (keycode == Input.Keys.ESCAPE) {
             player.currentLevel.isPaused = !(player.currentLevel.isPaused);
@@ -61,9 +59,6 @@ public class ZeprInputProcessor implements InputProcessor {
         	if (player.velocity.x == -player.speed) {
                 player.velocity.x = 0;
         	}
-        }
-        if (keycode == Input.Keys.E) {
-        	ePressed = false;
         }
         return true;
     }

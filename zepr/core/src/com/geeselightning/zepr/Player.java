@@ -169,20 +169,20 @@ public class Player extends Character {
         }
         
         // Added to implement player abilities
+        if (abilityDuration <= 0 && abilityActivated) {
+        	abilityActivated = false;
+        	this.deactivateAbility();
+        } else if (abilityDuration > 0) {
+        	abilityDuration -= delta;
+        }
+        
+        // Added to implement player abilities
         if (abilityCooldown <= 0) {
-        	if (abilityActivated && abilityDuration <= 0) {
+        	if (abilityActivated) {
             	this.activateAbility();
             }
         } else {
         	abilityCooldown -= delta;
-        }
-        
-        // Added to implement player abilities
-        if (abilityDuration <= 0 && abilityActivated) {
-        	this.deactivateAbility();
-        	abilityActivated = false;
-        } else if (abilityDuration > 0) {
-        	abilityDuration -= delta;
         }
     }
 
