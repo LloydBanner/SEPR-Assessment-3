@@ -8,7 +8,7 @@ public final class Constant {
     public static final int PLAYERMAXHP = 100;
     public static final int PLAYERDMG = 20;
     public static final int PLAYERRANGE = 50;
-    public static final float PLAYERHITCOOLDOWN = 0.2f;
+    public static final float PLAYERHITCOOLDOWN = 0.4f;
     public static final float ZOMBIESPEED = 80;
     public static final int ZOMBIEMAXHP = 100;
     public static final int ZOMBIEDMG = 10;
@@ -30,7 +30,7 @@ public final class Constant {
     public static final float SPORTYABILITYCOOLDOWN = 60;
     // Added to be used for third player type
     public static final float DRAMAHPMULT = 1;
-    public static final float DRAMADMGMULT = 5;
+    public static final float DRAMADMGMULT = 2;
     public static final float DRAMASPEEDMULT = 1;
     // Added to work with player abilities
     public static final float DRAMAABILITYDURATION = 0.5f;

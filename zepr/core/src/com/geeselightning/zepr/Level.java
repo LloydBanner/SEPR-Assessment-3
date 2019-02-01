@@ -288,7 +288,7 @@ public class Level implements Screen {
             		zombie.draw(renderer.getBatch());
 
             		// Draw zombie health bars
-            		int fillAmount = (int) (zombie.getHealth() / 100) * 30;
+            		int fillAmount = (int) ((zombie.getHealth() / 100) * 30);
             		renderer.getBatch().setColor(Color.BLACK);
             		renderer.getBatch().draw(blank, zombie.getX(), zombie.getY()+32, 32, 3);
             		renderer.getBatch().setColor(Color.RED);
