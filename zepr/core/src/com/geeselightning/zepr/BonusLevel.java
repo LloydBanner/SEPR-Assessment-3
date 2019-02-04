@@ -21,6 +21,7 @@ public class BonusLevel implements Screen {
 
 	protected Zepr parent;
     private Stage stage;
+    private Stage updateStage;
     private int score;
     private int goalScore;
     private Table gameInfo;
@@ -32,6 +33,7 @@ public class BonusLevel implements Screen {
 
         // The stage is the controller which will react to inputs from the user.
         this.stage = new Stage(new ScreenViewport());
+        this.updateStage = new Stage(new ScreenViewport());
         
         // Score to win minigame
         this.goalScore = Constant.BONUSGOAL;
@@ -42,14 +44,6 @@ public class BonusLevel implements Screen {
 	
 	@Override
 	public void show() {
-		
-	}
-
-	@Override
-	public void render(float delta) {
-        // Clears the screen to black.
-        Gdx.gl.glClearColor(0f, 0f, 0f, 1);
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         // Send any input from the user to the stage.
         Gdx.input.setInputProcessor(stage);
 
@@ -67,13 +61,6 @@ public class BonusLevel implements Screen {
         fire.setWrap(true);
         fire.setWidth(100);
         fire.setAlignment(Align.center);
-        
-        // Creating game labels for gameInfo
-        String scoreString = ("Score: " + score);
-        String goalString = ("Goal: " + goalScore);
-        Label title = new Label("Goose Hunt", skin, "subtitle");
-        scoreLabel = new Label(scoreString, skin);
-        goalLabel = new Label(goalString, skin);
         
         // Adding menu bar.
         Table menuBar = new Table();
@@ -98,17 +85,6 @@ public class BonusLevel implements Screen {
         bottomTable.add(left).pad(10);
         bottomTable.add(middle).pad(10);
         bottomTable.add(right).pad(10);
-        
-        // Adding game information
-        gameInfo.clear();
-        gameInfo.setFillParent(true);
-        // menuBar.setDebug(true); // Adds borders for the table.
-        stage.addActor(gameInfo);
-        
-        gameInfo.center().top();
-        gameInfo.add(title).pad(30);
-        gameInfo.add(scoreLabel).pad(10);
-        gameInfo.add(goalLabel).pad(10);
         
         // Defining actions for the back button.
         back.addListener(new ChangeListener() {
@@ -141,8 +117,40 @@ public class BonusLevel implements Screen {
                 score += 1;
             }
         });
+        
+		
+	}
+
+	@Override
+	public void render(float delta) {
+        // Clears the screen to black.
+        Gdx.gl.glClearColor(0f, 0f, 0f, 1);
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+
+        // Importing the necessary assets for the button textures.
+        Skin skin = new Skin(Gdx.files.internal("skin/pixthulhu-ui.json"));
+        
+        // Creating game labels for gameInfo
+        String scoreString = ("Score: " + score);
+        String goalString = ("Goal: " + goalScore);
+        Label title = new Label("Goose Hunt", skin, "subtitle");
+        scoreLabel = new Label(scoreString, skin);
+        goalLabel = new Label(goalString, skin);
+        
+        // Adding game information
+        gameInfo.clear();
+        gameInfo.setFillParent(true);
+        // menuBar.setDebug(true); // Adds borders for the table.
+        updateStage.addActor(gameInfo);
+        
+        gameInfo.center().top();
+        gameInfo.add(title).pad(30);
+        gameInfo.add(scoreLabel).pad(10);
+        gameInfo.add(goalLabel).pad(10);
 
         // Draws the stage.
+        this.updateStage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 30f));
+        this.updateStage.draw();
         this.stage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 30f));
         this.stage.draw();
         
@@ -172,13 +180,15 @@ public class BonusLevel implements Screen {
 
 	@Override
 	public void hide() {
-		// TODO Auto-generated method stub
+		this.dispose();
 		
 	}
 
 	@Override
 	public void dispose() {
-		// TODO Auto-generated method stub
+		stage.clear();
+		stage.dispose();
+		
 		
 	}
 
