@@ -44,4 +44,6 @@ public final class Constant {
     // Added for extra power ups
     public static final float INSTAKILLTIME = 10;
     public static final float NOCOOLDOWNSTIME = 10;
+    // Added for minigame
+    public static final int BONUSGOAL = 10;
 }

@@ -65,6 +65,7 @@ public class SelectLevelScreen implements Screen {
         TextButton save = new TextButton("Save", skin);
         TextButton load = new TextButton("Load", skin);
         TextButton back = new TextButton("Back", skin);
+        TextButton bonusGame = new TextButton("Bonus Game", skin);
 
         // Creating stage descriptions.
         Label title = new Label("Choose a stage and character.", skin, "subtitle");
@@ -101,6 +102,7 @@ public class SelectLevelScreen implements Screen {
         menuBar.add(back).pad(10);
         menuBar.add(save).pad(10);
         menuBar.add(load).pad(10);
+        menuBar.add(bonusGame).pad(10);
 
         // Adding stage selector buttons.
         Table stageSelect = new Table();
@@ -179,6 +181,14 @@ public class SelectLevelScreen implements Screen {
             	} catch (FileNotFoundException e) {
 					e.printStackTrace();
 				} 
+            }
+        });
+        
+        // Added to change the screen to the minigame
+        bonusGame.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                parent.changeScreen(Zepr.BONUS);
             }
         });
 
