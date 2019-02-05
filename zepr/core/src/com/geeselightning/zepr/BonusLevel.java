@@ -3,9 +3,13 @@
  */
 package com.geeselightning.zepr;
 
+import javax.swing.Renderer;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
@@ -22,11 +26,19 @@ public class BonusLevel implements Screen {
 	protected Zepr parent;
     private Stage stage;
     private Stage updateStage;
+    private SpriteBatch renderer;
     private int score;
     private int goalScore;
     private Table gameInfo;
     private Label scoreLabel;
     private Label goalLabel;
+    private BonusGoose goose1;
+    private BonusGoose goose2;
+    private BonusGoose goose3;
+    private int target1X = (1280/2 - 720/2) + 80;
+    private int target2X = (1280/2 - 100/2); 
+    private int target3X = (1280/2 + 720/2) - 180;
+    private int targetY = 720/4 + 210;
 	
 	public BonusLevel(Zepr zepr) {
 		this.parent = zepr;
@@ -38,8 +50,16 @@ public class BonusLevel implements Screen {
         // Score to win minigame
         this.goalScore = Constant.BONUSGOAL;
         
-        //for table to display score
+        // For table to display score
         gameInfo = new Table();
+        
+        // To render sprites for the game.
+        renderer = new SpriteBatch();
+        
+        // Geese settings
+        goose1 = new BonusGoose(1, target1X + 100, targetY - 50);
+        goose2 = new BonusGoose(2, 1280/2 + 50, 720/4 + 230);
+        goose3 = new BonusGoose(3, target3X + 100, targetY + 100);
 	}
 	
 	@Override
@@ -98,7 +118,12 @@ public class BonusLevel implements Screen {
         left.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                score += 1;
+            	if (goose1.getX() < target1X + 80 && goose1.getX() > target1X - 80) {
+            		if (goose1.getY() < targetY + 80 && goose1.getY() > targetY - 30) {
+                        score += 1;
+            			goose1.respawn();
+            		}
+            	}
             }
         });
         
@@ -106,7 +131,12 @@ public class BonusLevel implements Screen {
         middle.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                score += 1;
+            	if (goose2.getX() < target2X + 80 && goose2.getX() > target2X - 80) {
+            		if (goose2.getY() < targetY + 80 && goose2.getY() > targetY - 30) {
+                        score += 1;
+            			goose2.respawn();
+            		}
+            	}
             }
         });
         
@@ -114,7 +144,12 @@ public class BonusLevel implements Screen {
         right.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                score += 1;
+            	if (goose3.getX() < target3X + 80 && goose3.getX() > target3X - 80) {
+            		if (goose3.getY() < targetY + 80 && goose3.getY() > targetY - 30) {
+                        score += 1;
+            			goose3.respawn();
+            		}
+            	}
             }
         });
         
@@ -126,6 +161,27 @@ public class BonusLevel implements Screen {
         // Clears the screen to black.
         Gdx.gl.glClearColor(0f, 0f, 0f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+		
+        // Rendering for sprites
+        renderer.begin();
+        
+        // Behind geese
+        renderer.draw(new Texture("gooseHuntBackground.png"), (1280/2 - 720/2), 720/4);
+        
+        // Geese
+        goose1.draw(renderer);
+        goose2.draw(renderer);
+        goose3.draw(renderer);
+        
+        // In front of geese
+        renderer.draw(new Texture("cannonLeft.png"), (1280/2 - 720/2) + 100, 720/4 + 10);
+        renderer.draw(new Texture("cannonMiddle.png"), (1280/2 - 100/2), 720/4 + 10);
+        renderer.draw(new Texture("cannonRight.png"), (1280/2 + 720/2) - 200, 720/4 + 10);
+        renderer.draw(new Texture("target.png"), target1X, targetY);
+        renderer.draw(new Texture("target.png"), target2X, targetY);
+        renderer.draw(new Texture("target.png"), target3X, targetY);
+        
+        renderer.end();
 
         // Importing the necessary assets for the button textures.
         Skin skin = new Skin(Gdx.files.internal("skin/pixthulhu-ui.json"));
@@ -157,25 +213,18 @@ public class BonusLevel implements Screen {
         if (score == goalScore) {
             parent.setScreen(new TextScreen(parent, "Bonus game completed."));
         }
-		
 	}
 
 	@Override
 	public void resize(int width, int height) {
-		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
 	public void pause() {
-		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
 	public void resume() {
-		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
@@ -188,8 +237,9 @@ public class BonusLevel implements Screen {
 	public void dispose() {
 		stage.clear();
 		stage.dispose();
-		
-		
+		goose1.dispose();
+		goose2.dispose();
+		goose3.dispose();
 	}
 
 }
