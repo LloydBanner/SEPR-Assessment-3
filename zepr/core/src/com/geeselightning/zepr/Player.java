@@ -207,5 +207,4 @@ public class Player extends Character {
             health -= dmg;
         }
     }
-
 }

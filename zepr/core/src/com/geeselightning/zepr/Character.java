@@ -182,5 +182,20 @@ public class Character extends Sprite {
     public void takeDamage(int dmg){
         health -= dmg;
     }
-
+    
+ /*
+    public void takeFireDamage(int dmg, float delta){
+    	int count = 0;
+    	float timer = 0;
+    	// Every second for x seconds, player takes damage
+        while(count<5) {
+        	timer += delta;
+        	if(timer>1) {
+            	health -= dmg;  
+            	timer = 0;
+            	count += 1;
+        	}
+        }
+    }
+    */
 }
