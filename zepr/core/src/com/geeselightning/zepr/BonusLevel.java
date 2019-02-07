@@ -58,7 +58,7 @@ public class BonusLevel implements Screen {
         
         // Geese settings
         goose1 = new BonusGoose(1, target1X + 100, targetY - 50);
-        goose2 = new BonusGoose(2, 1280/2 + 50, 720/4 + 230);
+        goose2 = new BonusGoose(2, target2X + 100, targetY + 20);
         goose3 = new BonusGoose(3, target3X + 100, targetY + 100);
 	}
 	
