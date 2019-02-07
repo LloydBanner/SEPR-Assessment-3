@@ -27,7 +27,8 @@ public class Level implements Screen {
     private OrthogonalTiledMapRenderer renderer;
     private OrthographicCamera camera;
     private Player player;
-    protected ArrayList<Zombie> aliveZombies = new ArrayList<Zombie>();
+    // Changed a live zombies to Character to allow different zombies to be spawned
+    protected ArrayList<Character> aliveZombies = new ArrayList<Character>();
     private String mapLocation;
     private Vector2 playerSpawn;
     public ArrayList<Vector2> zombieSpawnPoints;
@@ -101,7 +102,7 @@ public class Level implements Screen {
     public ArrayList<Character> getCharacters() {
         ArrayList<Character> characters = new ArrayList<Character>();
 
-        for (Zombie zombie : aliveZombies) {
+        for (Character zombie : aliveZombies) {
             characters.add(zombie);
         }
 
@@ -120,15 +121,23 @@ public class Level implements Screen {
      */
     public int spawnZombies(int amount, ArrayList<Vector2> spawnPoints) {
         int notSpawned = 0;
-
         for (int i = 0; i < amount; i++) {
-
-            Zombie zombie = (new Zombie(new Sprite(new Texture("zombie01.png")),
-                    spawnPoints.get(i % spawnPoints.size()), this));
+        	Character zombie;
+        	
+        	// Added different zombies to spawn
+        	// Used to determine which zombie to spawn
+            int random = (int )(Math.random() * 10 + 1);
+        	if (random >= 7 && random <= 9) {
+        		zombie = (new ZombieFast(new Sprite(new Texture("FastZombie.png")),
+                        spawnPoints.get(i % spawnPoints.size()), this));
+        	} else {
+                zombie = (new Zombie(new Sprite(new Texture("zombie01.png")),
+                        spawnPoints.get(i % spawnPoints.size()), this));
+        	}
 
             // Check there isn't already a zombie there, or they will be stuck
             boolean collides = false;
-            for (Zombie otherZombie : aliveZombies) {
+            for (Character otherZombie : aliveZombies) {
                 if (zombie.collidesWith(otherZombie)) {
                     collides = true;
                     // Decrement counter as it didn't spawn.
@@ -274,7 +283,7 @@ public class Level implements Screen {
             // Resolve all possible attacks
             if (renderer != null) {
             	for (int i = 0; i < aliveZombies.size(); i++) {
-            		Zombie zombie = aliveZombies.get(i);
+            		Character zombie = aliveZombies.get(i);
             		// Zombies will only attack if they are in range, the attack has cooled down, and they are
             		// facing a player.
             		// Player will only attack in the reverse situation but player.attack must also be true. This is
@@ -289,7 +298,7 @@ public class Level implements Screen {
 
             		// Draw zombie health bars
             		// Changed health bars so that they update properly 
-            		int fillAmount = (int) ((zombie.getHealth() / 100) * 30);
+            		int fillAmount = (int) ((zombie.getHealth() / zombie.maxHealth) * 30);
             		renderer.getBatch().setColor(Color.BLACK);
             		renderer.getBatch().draw(blank, zombie.getX(), zombie.getY()+32, 32, 3);
             		renderer.getBatch().setColor(Color.RED);
@@ -428,7 +437,7 @@ public class Level implements Screen {
             currentPowerUp.getTexture().dispose();
         }
         player.getTexture().dispose();
-        for (Zombie zombie : aliveZombies) {
+        for (Character zombie : aliveZombies) {
             zombie.getTexture().dispose();
         }
         // Added to prevent the game from crashing, Stops the renderer from being used after it is disposed

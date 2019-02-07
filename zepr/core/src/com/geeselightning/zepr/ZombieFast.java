@@ -3,17 +3,17 @@ package com.geeselightning.zepr;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Vector2;
 
-public class Zombie extends Character {
+public class ZombieFast extends Character {
 
     private Player player = Player.getInstance();
-    int attackDamage = Constant.ZOMBIEDMG;
+    int attackDamage = Constant.ZOMBIEFASTDMG;
     public int hitRange = Constant.ZOMBIERANGE;
     public final float hitCooldown = Constant.ZOMBIEHITCOOLDOWN;
 
-    public Zombie(Sprite sprite, Vector2 zombieSpawn, Level currentLevel) {
+    public ZombieFast(Sprite sprite, Vector2 zombieSpawn, Level currentLevel) {
         super(sprite, zombieSpawn, currentLevel);
-        this.speed = Constant.ZOMBIESPEED;
-        this.maxHealth = Constant.ZOMBIEMAXHP;
+        this.speed = Constant.ZOMBIEFASTSPEED;
+        this.maxHealth = Constant.ZOMBIEFASTMAXHP;
         this.health = maxHealth;
     }
 

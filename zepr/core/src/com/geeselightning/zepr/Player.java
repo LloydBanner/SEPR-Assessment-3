@@ -41,7 +41,8 @@ public class Player extends Character {
     }
 
     // Changed to stop player from constantly attacking
-    public void attack(Zombie zombie, float delta) {
+    @Override
+    public void attack(Character zombie, float delta) {
         if (canHitGlobal(zombie, hitRange) && hitRefresh > hitCooldown && hitDuration >= 0) {
             zombie.takeDamage(attackDamage);
             hitRefresh = 0;

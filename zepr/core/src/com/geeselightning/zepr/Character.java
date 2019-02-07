@@ -18,6 +18,7 @@ public class Character extends Sprite {
     Level currentLevel;
     // All characters start ready to hit.
     float hitRefresh = 2;
+    int maxHealth;
 
     public Character(Sprite sprite, Vector2 spawn, Level currentLevel) {
         super(sprite);
@@ -32,6 +33,10 @@ public class Character extends Sprite {
 
     public double getHealth() {
         return health;
+    }
+    
+    public void attack(Character character, float delta) {
+    	// Implemented in higher classes
     }
 
     /**
