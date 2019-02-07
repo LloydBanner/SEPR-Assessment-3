@@ -127,8 +127,11 @@ public class Level implements Screen {
         	// Added different zombies to spawn
         	// Used to determine which zombie to spawn
             int random = (int )(Math.random() * 10 + 1);
-        	if (random >= 7 && random <= 9) {
+        	if (5 < random && random < 9) {
         		zombie = (new ZombieFast(new Sprite(new Texture("FastZombie.png")),
+                        spawnPoints.get(i % spawnPoints.size()), this));
+        	} else if(random >= 9) {
+        		zombie = (new FlamingZombie(new Sprite(new Texture("FlamingZombie.png")),
                         spawnPoints.get(i % spawnPoints.size()), this));
         	} else {
                 zombie = (new Zombie(new Sprite(new Texture("zombie01.png")),
