@@ -20,6 +20,8 @@ public final class Constant {
     public static final int ZOMBIEFASTDMG = 5;
     public static final float BOSSCOURTYARDSPEED = 70;
     public static final int BOSSCOURTYARDMAXHP = 400;
+    public static final float BOSSCENTRALHALLSPEED = 120;
+    public static final int BOSSCENTRALHALLMAXHP = 400;
     public static final float NERDYHPMULT = 1.5f;
     public static final float NERDYDMGMULT = 1;
     public static final float NERDYSPEEDMULT = 1;
