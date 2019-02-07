@@ -52,6 +52,16 @@ public class Character extends Sprite {
                 + Math.pow(getCenter().y - character.getCenter().y, 2));
         return (0 <= distanceBetweenCenters && distanceBetweenCenters <= Math.pow(diameter, 2));
     }
+    
+    public boolean collidesWithX(Character character) {
+    	double distanceX = Math.pow(getCenter().x - character.getCenter().x, 2);
+    	return (0 <= distanceX);
+    }
+    
+    public boolean collidesWithY(Character character) {
+    	double distanceY = Math.pow(getCenter().y - character.getCenter().y, 2);
+    	return (0 <= distanceY);
+    }
 
     @Override
     public void draw(Batch batch) {
@@ -134,8 +144,13 @@ public class Character extends Sprite {
 
         for (Character character : otherCharacters) {
             if (collidesWith(character)) {
-                setX(oldX);
-                setY(oldY);
+            	// Added to check X and Y collisions separately
+            	if (collidesWithX(character)) {
+            		setX(oldX);
+            	}
+                if (collidesWithY(character)) {
+                	setY(oldY);
+                }
             }
         }
 
@@ -143,11 +158,20 @@ public class Character extends Sprite {
         ArrayList<Vector2> spriteVertices = new ArrayList<Vector2>(Arrays.asList(new Vector2(getX(), getY()),
                 new Vector2(getX() + getWidth(), getY()), new Vector2(getX(), getY() + getHeight()),
                 new Vector2(getX() + getWidth(), getY() + getHeight())));
+        
+        // Old corners
+        // Added to improve collisions by allowing better checks
+        ArrayList<Vector2> oldVertices = new ArrayList<Vector2>(Arrays.asList(new Vector2(oldX, oldY),
+                new Vector2(oldX + getWidth(), oldY), new Vector2(oldX, oldY + getHeight()),
+                new Vector2(oldX + getWidth(), oldY + getHeight())));
 
         // Make sure non of the corners goto a blocked region of the map
-        for (Vector2 vertex : spriteVertices) {
-            if (currentLevel.isBlocked(vertex.x, vertex.y)) {
+        for (int n = 0; n < spriteVertices.size(); n++) {
+        	// Changed to check X and Y separately to improve collisions
+            if (currentLevel.isBlocked(spriteVertices.get(n).x, oldVertices.get(n).y)) {
                 setX(oldX);
+            }
+            if (currentLevel.isBlocked(oldVertices.get(n).x, spriteVertices.get(n).y)) {
                 setY(oldY);
             }
         }
