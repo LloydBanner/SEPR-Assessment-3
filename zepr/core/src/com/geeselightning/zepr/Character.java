@@ -53,11 +53,25 @@ public class Character extends Sprite {
         return (0 <= distanceBetweenCenters && distanceBetweenCenters <= Math.pow(diameter, 2));
     }
     
+    /**
+     * Added by Shaun of the Devs
+     * Uses distance between this Character and another character in the x axis to decide how they collide.
+     *
+     * @param character Character to check if this collides with
+     * @return boolean true if they collide, false otherwise
+     */
     public boolean collidesWithX(Character character) {
     	double distanceX = Math.pow(getCenter().x - character.getCenter().x, 2);
     	return (0 <= distanceX);
     }
     
+    /**
+     * Added by Shaun of the Devs
+     * Uses distance between this Character and another character in the y axis to decide how they collide.
+     *
+     * @param character Character to check if this collides with
+     * @return boolean true if they collide, false otherwise
+     */
     public boolean collidesWithY(Character character) {
     	double distanceY = Math.pow(getCenter().y - character.getCenter().y, 2);
     	return (0 <= distanceY);
