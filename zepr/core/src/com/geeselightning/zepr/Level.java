@@ -121,6 +121,16 @@ public class Level implements Screen {
      */
     public int spawnZombies(int amount, ArrayList<Vector2> spawnPoints) {
         int notSpawned = 0;
+        
+        // Added to spawn bosses
+        if (amount == 100) {
+        	Character boss = (new BossCourtyard(new Sprite(new Texture("bossCourtyard.png")),
+                    spawnPoints.get(1), this));
+        	zombiesRemaining = 1;
+        	amount = 0;
+            aliveZombies.add(boss);
+        }
+        
         for (int i = 0; i < amount; i++) {
         	Character zombie;
         	
@@ -263,7 +273,7 @@ public class Level implements Screen {
 
             table.clear();
 
-            // Try to spawn all zombie in the stage and update zombiesToSpawn with the amount that failed to spawn
+            // Try to spawn all zombies in the stage and update zombiesToSpawn with the amount that failed to spawn
             zombiesToSpawn = spawnZombies(zombiesToSpawn, zombieSpawnPoints);
 
             // Keep the player central in the screen.
