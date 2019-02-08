@@ -53,6 +53,7 @@ public class SelectLevelScreen implements Screen {
         final TextButton town = new TextButton("Town", skin);
         TextButton halifax = new TextButton("Halifax", skin);
         TextButton courtyard = new TextButton("Courtyard", skin);
+        TextButton library = new TextButton("Library", skin);
 
         // Creating character buttons.
         TextButton nerdy = new TextButton("Nerdy",skin);
@@ -72,6 +73,7 @@ public class SelectLevelScreen implements Screen {
         final String townDescription = "You wake up hungover in town to discover there is a zombie apocalypse.";
         final String halifaxDescription = "You need to get your laptop with the work on it from your accomodation.";
         final String courtyardDescription = "You should go to Courtyard and get some breakfast.";
+        final String libraryDescription = "Take a break from the zombies to study.";
         final String lockedDescription = "This stage is locked until you complete the previous one.";
         final String defaultDescription ="Select a stage from the buttons above.";
         stageDescription = new Label(defaultDescription, skin);
@@ -113,15 +115,16 @@ public class SelectLevelScreen implements Screen {
         stageSelect.center();
 
         stageSelect.row();
-        stageSelect.add(title).colspan(3);
+        stageSelect.add(title).colspan(6);
 
         stageSelect.row().pad(50,0,100,0);
-        stageSelect.add(town).pad(10);
-        stageSelect.add(halifax).pad(10);
-        stageSelect.add(courtyard).pad(10);
+        stageSelect.add(town).pad(5);
+        stageSelect.add(halifax).pad(5);
+        stageSelect.add(courtyard).pad(5);
+        stageSelect.add(library).pad(5);
 
         stageSelect.row();
-        stageSelect.add(stageDescription).width(1000f).colspan(3);
+        stageSelect.add(stageDescription).width(1000f).colspan(6);
 
         // Adding select character Buttons
         stageSelect.row().center();
@@ -131,7 +134,7 @@ public class SelectLevelScreen implements Screen {
         stageSelect.add(drama).pad(10);
 
         stageSelect.row().center();
-        stageSelect.add(characterDescription).width(1000f).colspan(3);
+        stageSelect.add(characterDescription).width(1000f).colspan(6);
 
         // Adding play button at the bottom.
         Table bottomTable = new Table();
@@ -225,6 +228,21 @@ public class SelectLevelScreen implements Screen {
                 public void changed(ChangeEvent event, Actor actor) {
                     stageDescription.setText(courtyardDescription);
                     stageLink = Zepr.COURTYARD;
+                }
+            });
+        }
+        
+        // Added for LibraryLevel
+        if (parent.progress <= parent.COURTYARD) {
+            library.setColor(Color.DARK_GRAY);
+            library.getLabel().setColor(Color.DARK_GRAY);
+        } else {
+            // Defining actions for the courtyard button.
+            library.addListener(new ChangeListener() {
+                @Override
+                public void changed(ChangeEvent event, Actor actor) {
+                    stageDescription.setText(libraryDescription);
+                    stageLink = Zepr.LIBRARY;
                 }
             });
         }

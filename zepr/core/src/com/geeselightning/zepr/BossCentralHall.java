@@ -13,6 +13,9 @@ public class BossCentralHall extends Character {
     int attackDamage = Constant.ZOMBIEDMG;
     public int hitRange = Constant.ZOMBIERANGE;
     public final float hitCooldown = Constant.ZOMBIEHITCOOLDOWN;
+    private int zombiesToSpawn = 0;
+    private boolean spawningZombies = false;
+    private float spawnTimer = 0;
 
     public BossCentralHall(Sprite sprite, Vector2 zombieSpawn, Level currentLevel) {
         super(sprite, zombieSpawn, currentLevel);
@@ -36,13 +39,25 @@ public class BossCentralHall extends Character {
         //move according to velocity
         super.update(delta);
         
-        // Spawns zombies near the boss when there are less than 10 zombies on the map
-        if (currentLevel.zombiesRemaining < 3) {
+        // Spawns flamming zombies near the boss when there are less than 3 zombies on the map
+        // spawns every 10 seconds for 5 seconds near the boss if there are no zombies in the way
+        if (spawnTimer <= 15) {
+        	spawnTimer += delta;
+        } else {
+        	spawnTimer = 0;
+        }
+        
+        if (currentLevel.zombiesRemaining + zombiesToSpawn < 3) {
+        	zombiesToSpawn++;
+        }
+        
+        if (spawnTimer <= 5 && zombiesToSpawn > 0) {
+        	spawningZombies = true;
             int random = (int )(Math.random() * 40 + 1);
         	if (random > 20) {
         		random = -(random - 20);
         	}
-    		Character zombie = (new Zombie(new Sprite(new Texture("zombie01.png")),
+    		Character zombie = (new FlamingZombie(new Sprite(new Texture("FlamingZombie.png")),
                     new Vector2(getX() + random, getY() + random), currentLevel));
             boolean collides = false;
             for (Character otherZombie : currentLevel.aliveZombies) {
@@ -53,7 +68,12 @@ public class BossCentralHall extends Character {
             if (!collides) {
             	currentLevel.aliveZombies.add(zombie);
             	currentLevel.zombiesRemaining++;
+            	zombiesToSpawn--;
             }
+        }
+        
+        if (spawningZombies && spawnTimer > 5) {
+        	spawningZombies = false;
         }
 
         // update velocity to move towards player

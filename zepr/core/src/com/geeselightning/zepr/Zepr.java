@@ -19,7 +19,8 @@ public class Zepr extends Game {
 	public final static int TOWN = 3;
 	public final static int HALIFAX = 4;
 	public final static int COURTYARD = 5;
-	public final static int COMPLETE = 6;
+	public final static int LIBRARY = 6;
+	public final static int COMPLETE = 7;
 
 
 	public void changeScreen(int screen) {
@@ -46,6 +47,10 @@ public class Zepr extends Game {
 				break;
 			case COURTYARD:
 				level = new CourtyardLevel(this);
+				this.setScreen(level);
+				break;
+			case LIBRARY:
+				level = new LibraryLevel(this);
 				this.setScreen(level);
 				break;
 		}

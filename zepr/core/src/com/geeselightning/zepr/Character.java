@@ -168,24 +168,28 @@ public class Character extends Sprite {
             }
         }
 
-        // List of all corners of sprite
-        ArrayList<Vector2> spriteVertices = new ArrayList<Vector2>(Arrays.asList(new Vector2(getX(), getY()),
+        // List of all corners of sprite, added extra points in the centre of the edges
+        ArrayList<Vector2> spritePoints = new ArrayList<Vector2>(Arrays.asList(new Vector2(getX(), getY()),
                 new Vector2(getX() + getWidth(), getY()), new Vector2(getX(), getY() + getHeight()),
-                new Vector2(getX() + getWidth(), getY() + getHeight())));
+                new Vector2(getX() + getWidth(), getY() + getHeight()), new Vector2(getX() + getWidth()/2, getY() + getHeight()),
+                new Vector2(getX() + getWidth(), getY() + getHeight()/2), new Vector2(getX(), getY() + getHeight()/2),
+                new Vector2(getX() + getWidth()/2, getY())));
         
         // Old corners
         // Added to improve collisions by allowing better checks
-        ArrayList<Vector2> oldVertices = new ArrayList<Vector2>(Arrays.asList(new Vector2(oldX, oldY),
+        ArrayList<Vector2> oldPoints = new ArrayList<Vector2>(Arrays.asList(new Vector2(oldX, oldY),
                 new Vector2(oldX + getWidth(), oldY), new Vector2(oldX, oldY + getHeight()),
-                new Vector2(oldX + getWidth(), oldY + getHeight())));
+                new Vector2(oldX + getWidth(), oldY + getHeight()), new Vector2(oldX + getWidth()/2, oldY + getHeight()),
+                new Vector2(oldX + getWidth(), oldY + getHeight()/2), new Vector2(oldX, oldY + getHeight()/2),
+                new Vector2(oldX + getWidth()/2, oldY)));
 
         // Make sure non of the corners goto a blocked region of the map
-        for (int n = 0; n < spriteVertices.size(); n++) {
+        for (int n = 0; n < spritePoints.size(); n++) {
         	// Changed to check X and Y separately to improve collisions
-            if (currentLevel.isBlocked(spriteVertices.get(n).x, oldVertices.get(n).y)) {
+            if (currentLevel.isBlocked(spritePoints.get(n).x, oldPoints.get(n).y)) {
                 setX(oldX);
             }
-            if (currentLevel.isBlocked(oldVertices.get(n).x, spriteVertices.get(n).y)) {
+            if (currentLevel.isBlocked(oldPoints.get(n).x, spritePoints.get(n).y)) {
                 setY(oldY);
             }
         }
