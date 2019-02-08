@@ -1,5 +1,7 @@
 package com.geeselightning.zepr;
 
+import java.util.Random;
+
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Vector2;
 
@@ -16,7 +18,8 @@ public class FlamingZombie extends Character {
 
     public FlamingZombie(Sprite sprite, Vector2 zombieSpawn, Level currentLevel) {
         super(sprite, zombieSpawn, currentLevel);
-        this.speed = Constant.ZOMBIESPEED;
+        Random rand = new Random();
+        this.speed = Constant.FLAMINGZOMBIESPEED + rand.nextInt(10);
         this.maxHealth = Constant.FLAMINGZOMBIEMAXHP;
         this.health = maxHealth;
     }
