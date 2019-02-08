@@ -18,7 +18,7 @@ public final class Constant {
     public static final float ZOMBIEFASTSPEED = 150;
     public static final int ZOMBIEFASTMAXHP = 50;
     public static final int ZOMBIEFASTDMG = 5;
-    public static final int FLAMINGZOMBIERANGE = 40;
+    public static final int FLAMINGZOMBIERANGE = 80;
     public static final int FLAMINGZOMBIEMAXHP = 40;
     public static final int FLAMINGZOMBIEDMG = 2;
     public static final int FLAMINGZOMBIESPEED = 50;
