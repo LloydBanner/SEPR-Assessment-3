@@ -1,5 +1,7 @@
 package com.geeselightning.zepr;
 
+import java.util.Random;
+
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Vector2;
 
@@ -12,7 +14,9 @@ public class Zombie extends Character {
 
     public Zombie(Sprite sprite, Vector2 zombieSpawn, Level currentLevel) {
         super(sprite, zombieSpawn, currentLevel);
-        this.speed = Constant.ZOMBIESPEED;
+        // Added RNG to vary zombie speeds
+        Random rand = new Random();
+        this.speed = Constant.ZOMBIESPEED + rand.nextInt(20);
         this.maxHealth = Constant.ZOMBIEMAXHP;
         this.health = maxHealth;
     }
