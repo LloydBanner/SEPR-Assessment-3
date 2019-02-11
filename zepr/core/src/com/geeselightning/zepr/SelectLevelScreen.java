@@ -50,10 +50,25 @@ public class SelectLevelScreen implements Screen {
         Skin skin = new Skin(Gdx.files.internal("skin/pixthulhu-ui.json"));
 
         // Creating stage buttons.
-        final TextButton town = new TextButton("Town", skin);
+        TextButton town = new TextButton("Town", skin);
         TextButton halifax = new TextButton("Halifax", skin);
         TextButton courtyard = new TextButton("Courtyard", skin);
+        // Added buttons for new levels
         TextButton library = new TextButton("Library", skin);
+        TextButton physics = new TextButton("Physics", skin);
+        TextButton centralHall = new TextButton("Central Hall", skin);
+        town.setTransform(true);
+        halifax.setTransform(true);
+        courtyard.setTransform(true);
+        library.setTransform(true);
+        physics.setTransform(true);
+        centralHall.setTransform(true);
+        town.setScale(0.7f);
+        halifax.setScale(0.7f);
+        courtyard.setScale(0.7f);
+        library.setScale(0.7f);
+        physics.setScale(0.7f);
+        centralHall.setScale(0.7f);
 
         // Creating character buttons.
         TextButton nerdy = new TextButton("Nerdy",skin);
@@ -73,7 +88,10 @@ public class SelectLevelScreen implements Screen {
         final String townDescription = "You wake up hungover in town to discover there is a zombie apocalypse.";
         final String halifaxDescription = "You need to get your laptop with the work on it from your accomodation.";
         final String courtyardDescription = "You should go to Courtyard and get some breakfast.";
+        // Added descriptions for new levels
         final String libraryDescription = "Take a break from the zombies to study.";
+        final String physicsDescription = "You go to Physics to try and find something to help stop the zombies.";
+        final String centralHallDescription = "Stop the source of the zombie horde by beating the boss in Central hall.";
         final String lockedDescription = "This stage is locked until you complete the previous one.";
         final String defaultDescription ="Select a stage from the buttons above.";
         stageDescription = new Label(defaultDescription, skin);
@@ -115,16 +133,19 @@ public class SelectLevelScreen implements Screen {
         stageSelect.center();
 
         stageSelect.row();
-        stageSelect.add(title).colspan(6);
-
-        stageSelect.row().pad(50,0,100,0);
-        stageSelect.add(town).pad(5);
-        stageSelect.add(halifax).pad(5);
-        stageSelect.add(courtyard).pad(5);
-        stageSelect.add(library).pad(5);
+        stageSelect.add(title).colspan(6).pad(40);
+        
+        stageSelect.row();
+        stageSelect.add(town).pad(-35);
+        stageSelect.add(halifax).pad(-35);
+        stageSelect.add(courtyard).pad(-35);
+        // Added buttons for new levels
+        stageSelect.add(library).pad(-35);
+        stageSelect.add(physics).pad(-35);
+        stageSelect.add(centralHall).pad(-35);
 
         stageSelect.row();
-        stageSelect.add(stageDescription).width(1000f).colspan(6);
+        stageSelect.add(stageDescription).width(1000f).colspan(6).pad(40);
 
         // Adding select character Buttons
         stageSelect.row().center();
@@ -246,9 +267,38 @@ public class SelectLevelScreen implements Screen {
                 }
             });
         }
+        
+        // Added for physicsLevel
+        if (parent.progress <= parent.LIBRARY) {
+            physics.setColor(Color.DARK_GRAY);
+            physics.getLabel().setColor(Color.DARK_GRAY);
+        } else {
+            // Defining actions for the courtyard button.
+        	physics.addListener(new ChangeListener() {
+                @Override
+                public void changed(ChangeEvent event, Actor actor) {
+                    stageDescription.setText(physicsDescription);
+                    stageLink = Zepr.PHYSICS;
+                }
+            });
+        }
+        
+        // Added for CentralHallLevel
+        if (parent.progress <= parent.PHYSICS) {
+            centralHall.setColor(Color.DARK_GRAY);
+            centralHall.getLabel().setColor(Color.DARK_GRAY);
+        } else {
+            // Defining actions for the courtyard button.
+        	centralHall.addListener(new ChangeListener() {
+                @Override
+                public void changed(ChangeEvent event, Actor actor) {
+                    stageDescription.setText(centralHallDescription);
+                    stageLink = Zepr.CENTRALHALL;
+                }
+            });
+        }
 
         //Defining actions for the nerdy button.
-
         nerdy.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {

@@ -132,8 +132,8 @@ public class Level implements Screen {
         } else if (amount == 150) {
         	Character boss = (new BossCentralHall(new Sprite(new Texture("bossCentralHall.png")),
                     spawnPoints.get(1), this));
-        	zombiesRemaining = 1;
-        	amount = 0;
+        	zombiesRemaining = 16;
+        	amount = 15;
             aliveZombies.add(boss);
         }
         

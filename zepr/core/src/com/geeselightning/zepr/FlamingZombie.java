@@ -1,3 +1,6 @@
+/**
+ * Added by Shaun of the Devs to meet the requirement of different zombie types
+ */
 package com.geeselightning.zepr;
 
 import java.util.Random;
