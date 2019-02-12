@@ -12,9 +12,12 @@ public class BonusGoose extends Sprite{
 	private Texture leftOne = new Texture("gooseLeft.png");
 	private int velocityX = 0;
 	private int velocityY = 0;
-	private int velocityConstant = 30;
+	private int speed = 60;
 	private float timer = 0;
 	private int movementPhase = 1;
+	private int direction = 0;
+	private int directionCopy = 0;
+	private boolean startedMovement = false;
 	
 	
 	public BonusGoose(int x, int y) {
@@ -44,13 +47,13 @@ public class BonusGoose extends Sprite{
         // Update x, y position of character.
         setX(getX() + velocityX * delta);
         setY(getY() + velocityY * delta);
-        
-        // Used to time movement and animation
-		timer += delta;
-		if (timer >= 2) {
-			timer = 0;
-		}
 		
+        if (!startedMovement) {
+        	velocityX = -speed;
+		    velocityY = speed;
+		    startedMovement = true;
+        }
+        
 		if(getX() >= 925) {
 			setX(925);
 		} else if(getX() <= 280) {
@@ -63,24 +66,63 @@ public class BonusGoose extends Sprite{
 			setY(250);
 		}
 		
-		// Movement for different geese
-		Random rand = new Random();
-
-		if (timer > 0.1) {
-			if (movementPhase <= 200) {
-				movementPhase += 1;
-			} else {
-				movementPhase = 1;
-			}
-		}
-		if (movementPhase <= 90 + rand.nextInt(10)) {
-			velocityX = -velocityConstant - rand.nextInt(90);
-			velocityY = velocityConstant + rand.nextInt(90);
-		} else {
-			velocityX = velocityConstant + rand.nextInt(90);
-			velocityY = -velocityConstant - rand.nextInt(90);
-		}
+        // Increments timer
+		timer += delta;
 		
+		// Used to choose a random direction
+		Random rand = new Random();
+		
+		// Changes direction and increases speed every 4 seconds
+		if (timer > 4) {
+			speed += 2;
+			// Resets timer
+			timer = 0;
+			
+			// Avoids repeats in direction
+			while(direction == directionCopy) {
+				direction = rand.nextInt(7);				
+			}
+			directionCopy = direction;
+
+			switch (direction) {
+			case(0): // NW
+				velocityX = -speed;
+			    velocityY = speed;
+				break;
+			case(1): // N
+				velocityX = 0;
+		    	velocityY = speed;
+				break;
+			case(2): // NE
+				velocityX = speed;
+	    		velocityY = speed;
+	    		break;
+			case(3): // E
+				velocityX = +speed;
+	    		velocityY = 0;
+	    		break;
+			case(4): // SE
+				velocityX = speed;
+				velocityY = -speed;
+				break;
+			case(5): // S
+				velocityX = 0;
+				velocityY = -speed;
+				break;
+			case(6): // SW
+				velocityX = -speed;
+				velocityY = -speed;
+				break;
+			case(7): // W
+				velocityX = -speed;
+				velocityY = 0;
+				break;
+			default:
+				velocityX = -speed;
+			    velocityY = speed;
+				break;
+			}
+		} 
 	}
 		
 		
