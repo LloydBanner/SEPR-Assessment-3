@@ -44,7 +44,7 @@ public class Level implements Screen {
     private boolean pauseButton = false;
     Texture blank;
     Vector2 powerSpawn;
-    PowerUp currentPowerUp = null;
+    PowerUp currentPowerUp = null; 
 
     Label progressLabel = new Label("", skin);
     Label healthLabel = new Label("", skin);
@@ -55,12 +55,22 @@ public class Level implements Screen {
 
     public Level(Zepr zepr, String mapLocation, Vector2 playerSpawn, ArrayList<Vector2> zombieSpawnPoints, int[] waves, Vector2 powerSpawn) {
         parent = zepr;
-        this.mapLocation = mapLocation;
+        this.mapLocation = mapLocation; 
         this.playerSpawn = playerSpawn;
         this.zombieSpawnPoints = zombieSpawnPoints;
         this.isPaused = false;
         this.blank = new Texture("blank.png");
         this.powerSpawn = powerSpawn;
+        
+        //Set up the number of zombies according to the difficulty
+        if(Constant.difficulty==2) {
+			for(int i=0;i<waves.length;i++)
+				waves[i]=(int) (waves[i]*Constant.I);
+		}
+        if(Constant.difficulty==3) {
+        	for(int i=0;i<waves.length;i++)
+				waves[i]=(int) (waves[i]*Constant.H);
+		}
 
         // Set up data for first wave of zombies
         this.waves = waves;
@@ -90,6 +100,15 @@ public class Level implements Screen {
      */
     public void gameOver() {
         isPaused = true;
+        //To change numbere of zombies back to original value
+        if(Constant.difficulty==2) {
+ 			for(int i=0;i<waves.length;i++)
+ 				waves[i]=(int) Math.ceil(waves[i]/Constant.I);
+ 		}
+         if(Constant.difficulty==3) {
+         	for(int i=0;i<waves.length;i++)
+ 				waves[i]=(int) Math.ceil(waves[i]/Constant.H);
+ 		}
         parent.setScreen(new TextScreen(parent, "You died."));
     }
 
@@ -123,20 +142,20 @@ public class Level implements Screen {
         int notSpawned = 0;
         
         // Added to spawn bosses
-        if (amount == 100) {
+        if (amount == 100 || amount==150 || amount==250) {
         	Character boss = (new BossCourtyard(new Sprite(new Texture("bossCourtyard.png")),
                     spawnPoints.get(1), this));
         	zombiesRemaining = 1;
         	amount = 0;
             aliveZombies.add(boss);
-        } else if (amount == 150) {
+        } else if (amount == 130 || amount==195 || amount==325) {
         	Character boss = (new BossCentralHall(new Sprite(new Texture("bossCentralHall.png")),
                     spawnPoints.get(1), this));
         	zombiesRemaining = 16;
         	amount = 15;
             aliveZombies.add(boss);
         }
-        
+       
         for (int i = 0; i < amount; i++) {
         	Character zombie;
         	
@@ -269,6 +288,14 @@ public class Level implements Screen {
             exit.addListener(new ChangeListener() {
                 @Override
                 public void changed(ChangeEvent event, Actor actor) {
+                	 if(Constant.difficulty==2) {
+             			for(int i=0;i<waves.length;i++)
+             				waves[i]=(int) Math.ceil(waves[i]/Constant.I);
+             		}
+                     if(Constant.difficulty==3) {
+                     	for(int i=0;i<waves.length;i++)
+             				waves[i]=(int) Math.ceil(waves[i]/Constant.H);
+             		}
                     parent.changeScreen(Zepr.SELECT);
                 }
             });
@@ -408,9 +435,26 @@ public class Level implements Screen {
                     isPaused = true;
                     complete();
                     if (parent.progress == parent.COMPLETE) {
+                    	if(Constant.difficulty==2) {
+                 			for(int i=0;i<waves.length;i++)
+                 				waves[i]=(int) Math.ceil(waves[i]/Constant.I);
+                 		}
+                         if(Constant.difficulty==3) {
+                         	for(int i=0;i<waves.length;i++)
+                 				waves[i]=(int) Math.ceil(waves[i]/Constant.H);
+                 		}
                         parent.setScreen(new TextScreen(parent, "Game completed."));
                         dispose();
                     } else {
+                    	//To change number of zombies back to original value 
+                    	if(Constant.difficulty==2) {
+                 			for(int i=0;i<waves.length;i++)
+                 				waves[i]=(int) Math.ceil(waves[i]/Constant.I);
+                 		}
+                         if(Constant.difficulty==3) {
+                         	for(int i=0;i<waves.length;i++)
+                 				waves[i]=(int) Math.ceil(waves[i]/Constant.H);
+                 		}
                         parent.setScreen(new TextScreen(parent, "Level completed."));
                         dispose();
                     }

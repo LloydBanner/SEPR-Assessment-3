@@ -27,7 +27,9 @@ public class SelectLevelScreen implements Screen {
 
     private Zepr parent;
     private Stage stage;
+    int checkd=0, checkc=0, checkl=0;
     private Label stageDescription;
+    private Label difficultyDescription;
     private Label characterDescription;
     private int stageLink = -1;
     private boolean playerSet = false;
@@ -48,6 +50,27 @@ public class SelectLevelScreen implements Screen {
 
         // Importing the necessary assets for the button textures.
         Skin skin = new Skin(Gdx.files.internal("skin/pixthulhu-ui.json"));
+        
+        // Creating difficulty buttons.
+        TextButton easy = new TextButton("Easy", skin);
+        TextButton intermediate = new TextButton("Intermediate", skin);
+        TextButton hard = new TextButton("Hard", skin);
+        easy.setTransform(true);
+        intermediate.setTransform(true);
+        hard.setTransform(true);
+        easy.setScale(0.7f);
+        intermediate.setScale(0.7f);
+        hard.setScale(0.7f);
+        
+        // Creating difficulty descriptions
+        final String easyDescription = "Less zombies and easier to kill.";
+        final String intermediateDescription = "More zombies and you have less health.";
+        final String hardDescription = "DEATH!";
+        final String defaultdifficultyDescription ="Select a difficulty from the buttons above.";
+        difficultyDescription = new Label(defaultdifficultyDescription, skin);
+        difficultyDescription.setWrap(true);
+        difficultyDescription.setWidth(100);
+        difficultyDescription.setAlignment(Align.center);
 
         // Creating stage buttons.
         TextButton town = new TextButton("Town", skin);
@@ -63,6 +86,12 @@ public class SelectLevelScreen implements Screen {
         library.setTransform(true);
         physics.setTransform(true);
         centralHall.setTransform(true);
+        town.getLabel().setFontScale(0.8f);
+        halifax.getLabel().setFontScale(0.8f);
+        courtyard.getLabel().setFontScale(0.8f);
+        centralHall.getLabel().setFontScale(0.8f);
+        physics.getLabel().setFontScale(0.8f);
+        library.getLabel().setFontScale(0.8f);
         town.setScale(0.7f);
         halifax.setScale(0.7f);
         courtyard.setScale(0.7f);
@@ -75,13 +104,29 @@ public class SelectLevelScreen implements Screen {
         TextButton sporty = new TextButton("Sporty",skin);
         // Added for third player type
         TextButton drama = new TextButton("Drama",skin);
-
+        nerdy.setTransform(true);
+        sporty.setTransform(true);
+        drama.setTransform(true);
+        nerdy.setScale(0.7f);
+        sporty.setScale(0.7f);
+        drama.setScale(0.7f);
+     
         // Creating other buttons.
-        TextButton play = new TextButton("Play", skin);
+        final TextButton play = new TextButton("Play", skin);
         TextButton save = new TextButton("Save", skin);
         TextButton load = new TextButton("Load", skin);
         TextButton back = new TextButton("Back", skin);
         TextButton bonusGame = new TextButton("Bonus Game", skin);
+        save.setTransform(true);
+        load.setTransform(true);
+        back.setTransform(true);
+        bonusGame.setTransform(true);
+        play.setTransform(true);
+        play.setScale(0.8f);
+        save.setScale(0.6f);
+        load.setScale(0.6f);
+        back.setScale(0.6f);
+        bonusGame.setScale(0.6f);
 
         // Creating stage descriptions.
         Label title = new Label("Choose a stage and character.", skin, "subtitle");
@@ -119,10 +164,10 @@ public class SelectLevelScreen implements Screen {
 
         menuBar.top().left();
         menuBar.row();
-        menuBar.add(back).pad(10);
-        menuBar.add(save).pad(10);
-        menuBar.add(load).pad(10);
-        menuBar.add(bonusGame).pad(10);
+        menuBar.add(back);
+        menuBar.add(save);
+        menuBar.add(load);
+        menuBar.add(bonusGame);
 
         // Adding stage selector buttons.
         Table stageSelect = new Table();
@@ -130,32 +175,39 @@ public class SelectLevelScreen implements Screen {
         // stageSelect.setDebug(true); // Adds borders for the table.
         stage.addActor(stageSelect);
 
-        stageSelect.center();
-
-        stageSelect.row();
-        stageSelect.add(title).colspan(6).pad(40);
+        stageSelect.row().center();
+        stageSelect.add(title).colspan(6).pad(40).padTop(110);
         
-        stageSelect.row();
-        stageSelect.add(town).pad(-35);
-        stageSelect.add(halifax).pad(-35);
-        stageSelect.add(courtyard).pad(-35);
+        //Adding difficulty buttons
+        stageSelect.row().pad(-25,0,10,0);
+        stageSelect.add(easy);
+        stageSelect.add(intermediate);
+        stageSelect.add(hard);  
+        
+        stageSelect.row().center();
+        stageSelect.add(difficultyDescription).width(1000f).colspan(3);
+        
+        stageSelect.row().pad(10,0,10,0);
+        stageSelect.add(town).size(210, 100).padRight(-30);
+        stageSelect.add(halifax).size(210, 100).padLeft(-290);
+        stageSelect.add(courtyard).size(240, 100).padLeft(-610);
         // Added buttons for new levels
-        stageSelect.add(library).pad(-35);
-        stageSelect.add(physics).pad(-35);
-        stageSelect.add(centralHall).pad(-35);
+        stageSelect.add(library).size(210, 100).padLeft(-530);
+        stageSelect.add(physics).size(210, 100).padLeft(-190);
+        stageSelect.add(centralHall).size(280, 100).padLeft(-30);
 
-        stageSelect.row();
-        stageSelect.add(stageDescription).width(1000f).colspan(6).pad(40);
+        stageSelect.row().center();
+        stageSelect.add(stageDescription).width(1000f).colspan(3);
 
         // Adding select character Buttons
-        stageSelect.row().center();
-        stageSelect.add(nerdy).pad(10);
-        stageSelect.add(sporty).pad(10);
+        stageSelect.row().pad(10,0,10,0);
+        stageSelect.add(nerdy);
+        stageSelect.add(sporty);
         // Added to support Third Player type
-        stageSelect.add(drama).pad(10);
-
+        stageSelect.add(drama);
+       
         stageSelect.row().center();
-        stageSelect.add(characterDescription).width(1000f).colspan(6);
+        stageSelect.add(characterDescription).width(1000f).colspan(3);
 
         // Adding play button at the bottom.
         Table bottomTable = new Table();
@@ -163,8 +215,10 @@ public class SelectLevelScreen implements Screen {
         // bottomTable.setDebug(true); // Adds borders for the table.
         stage.addActor(bottomTable);
 
-        bottomTable.bottom();
+        bottomTable.bottom().right();
         bottomTable.add(play).pad(10).center();
+        play.setColor(Color.DARK_GRAY);
+        play.getLabel().setColor(Color.DARK_GRAY);
 
         // Adding button logic.
 
@@ -215,6 +269,55 @@ public class SelectLevelScreen implements Screen {
                 parent.changeScreen(Zepr.BONUS);
             }
         });
+        
+        //Defining actions for the easy button.
+        easy.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                difficultyDescription.setText(easyDescription);
+                Constant.difficulty=1;
+                checkd=1;
+                //Check if play button can be pressed
+                if (checkd==1 && checkl==1 && checkc==1) {              
+                	play.setColor(Color.WHITE);
+                    play.getLabel().setColor(Color.WHITE);
+                }
+            }
+        });
+        
+        //Defining actions for the intermediate button.
+        intermediate.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                difficultyDescription.setText(intermediateDescription);
+                Constant.difficulty=2;
+                //Change player stats according to difficulty
+                Constant.PLAYERMAXHP=80;
+                Constant.PLAYERDMG=22;
+                checkd=1;
+                if (checkd==1 && checkl==1 && checkc==1) {               
+                	play.setColor(Color.WHITE);
+                    play.getLabel().setColor(Color.WHITE);
+                }
+            }
+        });
+        
+        //Defining actions for the hard button.
+        hard.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                difficultyDescription.setText(hardDescription);
+                Constant.difficulty=3;
+                Constant.PLAYERMAXHP=60;                                   
+                Constant.PLAYERDMG=20;
+                checkd=1;
+                if (checkd==1 && checkl==1 && checkc==1) {                 
+                	play.setColor(Color.WHITE);
+                    play.getLabel().setColor(Color.WHITE);
+                }
+            }
+        });
+
 
         // Defining actions for the town button.
         town.addListener(new ChangeListener() {
@@ -222,6 +325,11 @@ public class SelectLevelScreen implements Screen {
             public void changed(ChangeEvent event, Actor actor) {
                 stageDescription.setText(townDescription);
                 stageLink = Zepr.TOWN;
+                checkl=1;
+                if (checkd==1 && checkl==1 && checkc==1) {              
+                	play.setColor(Color.WHITE);
+                    play.getLabel().setColor(Color.WHITE);
+                }
             }
         });
 
@@ -235,6 +343,11 @@ public class SelectLevelScreen implements Screen {
                 public void changed(ChangeEvent event, Actor actor) {
                     stageDescription.setText(halifaxDescription);
                     stageLink = Zepr.HALIFAX;
+                    checkl=1;
+                    if (checkd==1 && checkl==1 && checkc==1) {               
+                    	play.setColor(Color.WHITE);
+                        play.getLabel().setColor(Color.WHITE);
+                    }
                 }
             });
         }
@@ -249,6 +362,11 @@ public class SelectLevelScreen implements Screen {
                 public void changed(ChangeEvent event, Actor actor) {
                     stageDescription.setText(courtyardDescription);
                     stageLink = Zepr.COURTYARD;
+                    checkl=1;
+                    if (checkd==1 && checkl==1 && checkc==1) {               
+                    	play.setColor(Color.WHITE);
+                        play.getLabel().setColor(Color.WHITE);
+                    }
                 }
             });
         }
@@ -264,6 +382,11 @@ public class SelectLevelScreen implements Screen {
                 public void changed(ChangeEvent event, Actor actor) {
                     stageDescription.setText(libraryDescription);
                     stageLink = Zepr.LIBRARY;
+                    checkl=1;
+                    if (checkd==1 && checkl==1 && checkc==1) {              
+                    	play.setColor(Color.WHITE);
+                        play.getLabel().setColor(Color.WHITE);
+                    }
                 }
             });
         }
@@ -279,6 +402,11 @@ public class SelectLevelScreen implements Screen {
                 public void changed(ChangeEvent event, Actor actor) {
                     stageDescription.setText(physicsDescription);
                     stageLink = Zepr.PHYSICS;
+                    checkl=1;
+                    if (checkd==1 && checkl==1 && checkc==1) {               
+                    	play.setColor(Color.WHITE);
+                        play.getLabel().setColor(Color.WHITE);
+                    }
                 }
             });
         }
@@ -294,6 +422,11 @@ public class SelectLevelScreen implements Screen {
                 public void changed(ChangeEvent event, Actor actor) {
                     stageDescription.setText(centralHallDescription);
                     stageLink = Zepr.CENTRALHALL;
+                    checkl=1;
+                    if (checkd==1 && checkl==1 && checkc==1) {              
+                    	play.setColor(Color.WHITE);
+                        play.getLabel().setColor(Color.WHITE);
+                    }
                 }
             });
         }
@@ -305,6 +438,11 @@ public class SelectLevelScreen implements Screen {
                 characterDescription.setText(nerdyDescription);
                 player.setType("nerdy");
                 playerSet = true;
+                checkc=1;
+                if (checkd==1 && checkl==1 && checkc==1) {
+                	play.setColor(Color.WHITE);
+                    play.getLabel().setColor(Color.WHITE);
+                }
             }
         });
         sporty.addListener(new ChangeListener() {
@@ -313,6 +451,11 @@ public class SelectLevelScreen implements Screen {
                 characterDescription.setText(sportyDescripton);
                 player.setType("sporty");
                 playerSet = true;
+                checkc=1;
+                if (checkd==1 && checkl==1 && checkc==1) {
+                	play.setColor(Color.WHITE);
+                    play.getLabel().setColor(Color.WHITE);
+                }
             }
         });
         // Added to support third player type
@@ -322,6 +465,11 @@ public class SelectLevelScreen implements Screen {
                 characterDescription.setText(dramaDescripton);
                 player.setType("drama");
                 playerSet = true;
+                checkc=1;
+                if (checkd==1 && checkl==1 && checkc==1) {
+                	play.setColor(Color.WHITE);
+                    play.getLabel().setColor(Color.WHITE);
+                }
             }
         });
 
